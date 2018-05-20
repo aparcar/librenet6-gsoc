@@ -1,0 +1,25 @@
+#!/bin/sh
+  
+# tell tinc to use the librenet6 network
+uci -q show tinc.librenet6 || {
+    touch /etc/config/tinc
+    uci batch <<-EOF
+    set tinc.librenet6='tinc-net'
+    set tinc.librenet6.enabled='1'
+    commit tinc
+EOF
+}
+
+# add tinc configuration
+[[ -e /etc/tinc/librenet6/tinc.conf ]] || {
+    mkdir -p /etc/tinc/librenet6/hosts/
+    cat <<EOF >/etc/tinc/librenet6/tinc.conf
+    Name = node_$HOSTNAME
+    Mode = switch
+    ConnectTo = topu
+EOF
+}
+
+# create keys if the don't exists yet
+[[ -e /etc/tinc/librenet6/hosts/node_$HOSTNAME ]] || \
+    tincd -n librenet6 -K </dev/null

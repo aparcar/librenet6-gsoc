@@ -1,0 +1,39 @@
+#!/bin/sh
+
+. /usr/share/libubox/jshn.sh
+
+case "$1" in
+list)
+    json_init
+    json_add_object "get_rsa_key"
+    json_close_object
+    json_add_object "get_ed25519_key"
+    json_close_object
+    json_dump
+    ;;
+call)
+    case "$2" in
+    get_rsa_key)
+        begun=0
+        output=""
+        while read p; do
+            if [[ "$p" == "-----END RSA PUBLIC KEY-----" ]]; then
+                break
+            elif [[ $begun == 1 ]]; then
+                output="${output}\n$p"
+            elif [[ "$p" == "-----BEGIN RSA PUBLIC KEY-----" ]]; then
+                begun=1
+            fi 
+        done </etc/tinc/librenet6/hosts/node_$HOSTNAME
+        ;;
+    get_ed25519_key)
+        output="$(cat /etc/tinc/librenet6/hosts/node_$HOSTNAME | \
+            grep Ed25519PublicKey | awk '{ print $3 }')"
+        ;;
+    esac
+    json_init
+    json_add_string "key" "$output"
+    json_dump
+    ;;
+esac
+
