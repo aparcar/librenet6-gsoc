@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cat <<EOF >>/etc/dnsmasq.conf
+enable-ra
+dhcp-range=lan, ${PREFIX}::, ra-names
+EOF

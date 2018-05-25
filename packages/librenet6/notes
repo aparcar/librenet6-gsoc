@@ -1,0 +1,2 @@
+tar czf hosts.tar.gz -C /etc/tinc/librenet6/hosts/ .
+sha256sum * > ../sha256sums

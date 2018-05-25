@@ -9,8 +9,8 @@ PKG_MAINTAINER:=Paul Spooren <spooren@informatik.uni-leipzig.de>
 include $(INCLUDE_DIR)/package.mk
 
 define Package/librenet6/Default
-  SECTION:=utils
-  CATEGORY:=Utilities
+  SECTION:=lime
+  CATEGORY:=LiMe
   TITLE:=librenet6
   PKGARCH:=all
   DEPENDS:=tinc
@@ -34,28 +34,61 @@ define Package/librenet6-babeld
   DEPENDS:=+babeld
 endef
 
+define Package/librenet6-topu
+  $(call Package/librenet6/Default)
+  TITLE+= topu server
+endef
+
+define Package/librenet6-gsoc
+  $(call Package/librenet6/Default)
+  TITLE+= gsoc server
+endef
+
 Build/Compile=
 
-define Package/librenet6/Default/install
+define Package/librenet6-topu/install
 		$(INSTALL_DIR) $(1)/
-		$(CP) -r files/common/* $(1)/
+		$(CP) -r files/topu/* $(1)/
+endef
+
+define Package/librenet6-gsoc/install
+		$(INSTALL_DIR) $(1)/
+		$(CP) -r files/gsoc/* $(1)/
 endef
 
 define Package/librenet6-bmx6/install
-		$(call Package/librenet6/Default/install)
+		$(INSTALL_DIR) $(1)/
+		$(CP) -r files/common/* $(1)/
 		$(CP) -r files/bmx6/* $(1)/
 endef
 
 define Package/librenet6-bmx7/install
-		$(call Package/librenet6/Default/install)
+		$(INSTALL_DIR) $(1)/
+		$(CP) -r files/common/* $(1)/
 		$(CP) -r files/bmx7/* $(1)/
 endef
 
 define Package/librenet6-babeld/install
-		$(call Package/librenet6/Default/install)
+		$(INSTALL_DIR) $(1)/
+		$(CP) -r files/common/* $(1)/
 		$(CP) -r files/babeld/* $(1)/
+endef
+
+define Package/librenet6-dnsmasq/install
+		$(INSTALL_DIR) $(1)/
+		$(CP) -r files/common/* $(1)/
+		$(INSTALL_DIR) $(1)/etc/uci-defaults
+		$(CP) files/dnsmasq.defaults $(1)/etc/uci-defaults
+endef
+
+define Package/librenet6-odhcpd/install
+		$(call Package/librenet6/Default/install)
+		$(INSTALL_DIR) $(1)/etc/uci-defaults
+		$(CP) files/odhcpd.defaults $(1)/etc/uci-defaults
 endef
 
 $(eval $(call BuildPackage,librenet6-bmx6))
 $(eval $(call BuildPackage,librenet6-bmx7))
 $(eval $(call BuildPackage,librenet6-babeld))
+$(eval $(call BuildPackage,librenet6-topu))
+$(eval $(call BuildPackage,librenet6-gsoc))

@@ -1,0 +1,21 @@
+config interface
+        option ifname 'librenet6'
+        option link_quality 'true'
+                
+config filter
+        option ignore 'false'
+        option type 'redistribute'
+        option ip '2a00:1508:1:f000::/52'
+        option eq '64'
+
+config filter
+        option ignore 'false'
+        option type 'redistribute'
+        option ip '2a00:1508:0a00::/40'
+        option eq '64'
+
+config filter
+        option 'ignore' 'false'
+        option 'type' 'redistribute'
+        option 'local' '1'
+        option 'action' 'deny'
