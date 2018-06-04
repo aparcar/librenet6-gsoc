@@ -31,7 +31,7 @@ endef
 define Package/librenet6-babeld
   $(call Package/librenet6/Default)
   TITLE+= babeld
-  DEPENDS:=+babeld
+  DEPENDS:=+babeld lime-proto-babeld
 endef
 
 define Package/librenet6-topu
@@ -71,7 +71,6 @@ endef
 define Package/librenet6-babeld/install
 		$(INSTALL_DIR) $(1)/
 		$(CP) -r files/common/* $(1)/
-		$(CP) -r files/babeld/* $(1)/
 endef
 
 define Package/librenet6-dnsmasq/install
