@@ -1,0 +1,10 @@
+#!/bin/sh
+
+cat >$INVITATION_FILE <<EOF
+Name = $NODE
+Netname = $NETNAME
+ConnectTo = $NAME
+#----------------#
+EOF
+
+tinc export >>$INVITATION_FILE
