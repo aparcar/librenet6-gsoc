@@ -21,6 +21,19 @@ all nodes of a (Layer2) mesh cloud share.  The subnet is part of
 IPv6 addresses to all nodes and clients of the LiMe cloud. However, most
 mesh gateways don't have a direct connection to Altermundi. 
 
+There comes LibreNet6, it connects via a Tinc mesh multiple community networks
+which only have Internet access via a NATed IPv4 address. Only the cloud
+gateways (CG) have to use [`babeld`](https://github.com/jech/babeld), within the mesh
+network other routing protocols can be used. All the CG has to do is announce
+public IPv6 uplink to the rest of it's cloud. Once multiple mesh networks are
+linked together their clients can start connecting directly via IPv6.
+A feature of Tinc is to perform NAT traversal so both CG's may connect directly
+with one another to avoid routing all traffic over the IPv6 server.
+
+The picture below tries to illustrate the idea
+
+![Tinc mesh](tinc-mesh.png)
+
 # Speeding up development
 
 I'm not completely new to the LiMe code and contributed on various end
@@ -67,4 +80,15 @@ an easier setup which stays compatible with already deployed connections:
 * Offer a [`lime-app`](https://github.com/libremesh/lime-app) to execute Tinc's
     join command via web interface and show state of connection, like a simple
     IPv6 ping check.
+* Create a simple admin interface to show connected cloud gateways and used IPv6
+subnets.
 
+# Next steps
+
+So far I spent most of the time on understanding LibreNet6, babeld, Tinc and CI
+and setting up a running testbed. Next week I'll create a LiMe package to be
+installed on CG's, setting up babeld and Tinc. Also I'll dig into the `lime-app`
+to understand the web framework and offer a simple interface for users. Lastly
+I'll write a guide for server owners how they can setup the *IPv6 server* on a
+Debian system, using real IPv6 or `6to4` tunnels in case only a public IPv4 is
+available.
