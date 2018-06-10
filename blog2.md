@@ -30,9 +30,14 @@ linked together their clients can start connecting directly via IPv6.
 A feature of Tinc is to perform NAT traversal so both CG's may connect directly
 with one another to avoid routing all traffic over the IPv6 server.
 
-The picture below tries to illustrate the idea
+The picture below tries to illustrate the idea.
 
 ![Tinc mesh](tinc-mesh.png)
+
+One of the advantages of LibreNet6 is to handle multiple IPv6 server and CG at
+the same time. Babeld allows to choose the fastest connection within the Tinc
+mesh and in mesh clouds the used mesh routing protocol decides which gateway to
+choose.
 
 # Speeding up development
 
